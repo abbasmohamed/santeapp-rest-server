@@ -45,7 +45,7 @@ restService.post('/hook', function (req, res) {
                                if(foodJson[item])
                                { 
                                    calories = foodJson[item];
-                                   onsole.log('calories: ', calories);
+                                   console.log('calories: ', calories);
                                }
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
