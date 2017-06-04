@@ -87,7 +87,7 @@ restService.post('/hook', function (req, res) {
 
                         speech += 'Enjoy Your Workout.\n'
 
-                        var workoutItem = requestBody.result.parameters.workoutItem;
+                        var workoutItem = requestBody.result.parameters.workoutItems;
                         
                         console.log('list: ', workoutItem);
                         for(var i = 0; i < workoutItem.length; i++) 
