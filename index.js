@@ -60,17 +60,7 @@ restService.post('/hook', function (req, res) {
                                     data[datetime] = {"add":0,"minus":0};
                                     console.log('inside: ', data);
                                 }
-                                if(data[datetime].add == 0)
-                                {
-                                    data[datetime].add += calories;
-                                }
-                                else
-                                {
-                                    data[datetime].add = calories;
-                                    data[datetime].minus = 0;
-                                    console.log('inside: ', data);
-                                    
-                                }
+                                data[datetime].add += calories;
                                 
                             });
                             
@@ -116,15 +106,7 @@ restService.post('/hook', function (req, res) {
                                 {
                                     data[datetime] = {"add":0,"minus":0};
                                 }
-                                if(data[datetime].minus == 0)
-                                {
-                                    data[datetime].minus += calories;
-                                }
-                                else
-                                {
-                                    data[datetime].minus = calories;
-                                    data[datetime].add = 0;
-                                }
+                                data[datetime].minus += calories;
                                 
                             });
                             speech += 'You Burnt calories through '+workout+' :';
