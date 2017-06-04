@@ -45,13 +45,17 @@ restService.post('/hook', function (req, res) {
                                 console.log('result: ', foodJson);
                                if(foodJson.item)
                                {
-                                    calories = foodJson.item;
+                                   console.log('result: ', foodJson.item); 
+                                   calories = foodJson.item;
                                }
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
                             {
                                 data = JSON.parse(data);
+                                console.log('result: ', data);
                                 var datetime = new Date().toDateString();
+                                
+                                console.log('result: ', datetime);
                                 if(!data.datetime)
                                 {
                                     data.datetime = {};
