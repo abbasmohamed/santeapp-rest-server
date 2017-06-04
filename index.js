@@ -8,12 +8,26 @@ const fs = require("fs");
 const restService = express();
 restService.use(bodyParser.json());
 
+const foodJson = {};
+const workoutJson = {};
+
+fs.readFile( "foodItem.json", 'utf8', function (err, data) 
+{
+    foodJson = JSON.parse(data);
+});
+fs.readFile( "workout.json", 'utf8', function (err, data) 
+{
+   workoutJson = JSON.parse(data);
+});
+
+
 restService.post('/hook', function (req, res) {
 
     console.log('hook request');
 
     try {
         var speech = 'empty speech';
+        var cmd = '';
 
         if (req.body) {
             var requestBody = req.body;
@@ -22,7 +36,7 @@ restService.post('/hook', function (req, res) {
                 speech = '';
 
                 if (requestBody.result.metadata.intentName) {
-                    var cmd = requestBody.result.metadata.intentName;
+                    cmd = requestBody.result.metadata.intentName;
                     if(cmd == 'Having_Food')
                     {
                         //having food request
@@ -41,16 +55,10 @@ restService.post('/hook', function (req, res) {
                             var item = foodarr[0];
                             var type = foodarr[1];
                             var calories = 0;
-                            fs.readFile( "foodItem.json", 'utf8', function (err, data) 
-                            {
-                                var foodJson = JSON.parse(data);
-                                if(foodJson[item])
-                                { 
-                                   calories = foodJson[item];
-                                }
-                                processFoodSpeech(speech, type, item, calories, (i == foodItem.length-1), res)
-                                
-                            });
+                            if(foodJson[item])
+                            { 
+                               calories = foodJson[item];
+                            }
                             fs.readFile( "db.json", 'utf8', function (err, data) 
                             {
                                 data = JSON.parse(data);
@@ -64,6 +72,9 @@ restService.post('/hook', function (req, res) {
                                 data[datetime].add += calories;
                                 
                             });
+                            speech += 'You consumed '+type+' '+item+' for ';
+                            speech += calories;
+                            speech += ' cal\n'
 
                         }
 
@@ -86,16 +97,10 @@ restService.post('/hook', function (req, res) {
                             var val = workoutarr[1];
                             var time = workoutarr[2];
                             var calories = 0;
-                            fs.readFile( "workout.json", 'utf8', function (err, data) 
+                            if(workoutJson[item])
                             {
-                               var workout = JSON.parse(data);
-                               if(workout[item])
-                               {
-                                    calories = (workout[item])*val;
-                               }
-                                processWorkoutSpeech(speech, workout, calories, (i == workoutItem.length-1), res);
-                                
-                            });
+                                calories = (workoutJson[item])*val;
+                            }
                             fs.readFile( "db.json", 'utf8', function (err, data) 
                             {
                                 data = JSON.parse(data);
@@ -107,6 +112,9 @@ restService.post('/hook', function (req, res) {
                                 data[datetime].minus += calories;
                                 
                             });
+                            speech += 'You Burnt calories through '+workout+' :';
+                            speech += calories;
+                            speech += ' cal\n'
 
                         }
                     }
@@ -129,7 +137,15 @@ restService.post('/hook', function (req, res) {
                                 caladd = data[dateId].add;
                                 calminus = data[dateId].minus;
                             }
-                            processTotalspeech(speech, dateId, caladd, calminus, true, res);
+                            speech += ''+dateId+':\n';
+                            speech += 'calories Consumed:'+caladd+' cal\n';
+                            speech += 'calories Burned:'+calminus+' cal\n';
+                            speech += 'Total:'+caladd-calminus+' cal';
+                            return res.json({
+                                speech: speech,
+                                displayText: speech,
+                                source: 'santeapp-rest-server'
+                            });
                             
                         });
                         
@@ -142,6 +158,13 @@ restService.post('/hook', function (req, res) {
                 }
 
             }
+        }
+        if(cmd != 'get_result'){
+        return res.json({
+            speech: speech,
+            displayText: speech,
+            source: 'santeapp-rest-server'
+        });
         }
 
     } catch (err) {
@@ -156,34 +179,6 @@ restService.post('/hook', function (req, res) {
     }
 });
 
-function processFoodSpeech(speech, type, item, calories, isResponse, res)
-{
-    speech += 'You consumed '+type+' '+item+' for ';
-    speech += calories;
-    speech += ' cal\n'
-    if(isResponse)
-    {
-        return res.json({
-            speech: speech,
-            displayText: speech,
-            source: 'santeapp-rest-server'
-        });
-    }
-}
-function processWorkoutSpeech(speech, workout, calories, isResponse, res)
-{
-    speech += 'You Burnt calories through '+workout+' :';
-    speech += calories;
-    speech += ' cal\n'
-    if(isResponse)
-    {
-        return res.json({
-            speech: speech,
-            displayText: speech,
-            source: 'santeapp-rest-server'
-        });
-    }
-}
 function processTotalSpeech(speech, dateId, caladd, calminus, isResponse , res)
 {
     speech += ''+dateId+':\n';
