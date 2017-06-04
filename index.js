@@ -46,7 +46,7 @@ restService.post('/hook', function (req, res) {
                                 console.log('result: ', item);
                                if(foodJson[item])
                                {
-                                   console.log('result: ', foodJson.item); 
+                                   console.log('result: ', foodJson[item]); 
                                    calories = foodJson[item];
                                }
                             });
@@ -60,6 +60,7 @@ restService.post('/hook', function (req, res) {
                                 if(!data[datetime])
                                 {
                                     data[datetime] = {};
+                                    console.log('inside: ', data);
                                 }
                                 if(data[datetime].add)
                                 {
@@ -69,6 +70,8 @@ restService.post('/hook', function (req, res) {
                                 {
                                     data[datetime].add = calories;
                                     data[datetime].minus = 0;
+                                    console.log('inside: ', data);
+                                    
                                 }
                                 
                             });
