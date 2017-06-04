@@ -1,0 +1,7 @@
+{
+  "name": "SanteApp",
+  "description": "SanteApp A HealthCare Buddy",
+  "repository": "https://github.com/abbasmohamed/santeapp-rest-server",
+  "logo": "http://xvir.github.io/img/apiai.png",
+  "keywords": ["santeapp-rest-server", "rest server"]
+}
