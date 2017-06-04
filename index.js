@@ -99,7 +99,7 @@ restService.post('/hook', function (req, res) {
                             {
                                 calories = (workoutJson[item])*val;
                             }
-                            data = dbJson;
+                            var data = dbJson;
                             console.log('data: ', data);
                             var datetime = new Date().toDateString();
                             if(!data[datetime])
@@ -125,8 +125,8 @@ restService.post('/hook', function (req, res) {
                         var calminus = 0;
                         
                        
-                        data = dbJson;
-                            
+                        var data = dbJson;
+                        console.log('data: ', data);
                         if(data[dateId])
                         {
                             caladd = data[dateId].add;
