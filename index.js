@@ -89,19 +89,15 @@ restService.post('/hook', function (req, res) {
 
                         var workoutItem = requestBody.result.parameters.workoutItems;
                         
-                        console.log('list: ', workoutItem);
                         for(var i = 0; i < workoutItem.length; i++) 
                         {
                             var workout = workoutItem[i];
                             var workoutarr = workout.split(" ");
                             
-                            console.log('list: ', workoutarr);
                             var item = workoutarr[0];
                             var val = workoutarr[1];
                             var time = workoutarr[2];
                             var calories = 0;
-                            console.log('list: ', workoutJson[item]);
-                            console.log('val: ', val);
                             if(workoutJson[item])
                             {
                                 calories = (workoutJson[item])*val;
@@ -137,6 +133,8 @@ restService.post('/hook', function (req, res) {
                         fs.readFile( "db.json", 'utf8', function (err, data) 
                         {
                             data = JSON.parse(data);
+                            console.log('data: ', data);
+                            console.log('date: ', dateId);
                             if(data[dateId])
                             {
                                 caladd = data[dateId].add;
@@ -145,7 +143,7 @@ restService.post('/hook', function (req, res) {
                             speech += ''+dateId+':\n';
                             speech += 'calories Consumed:'+caladd+' cal\n';
                             speech += 'calories Burned:'+calminus+' cal\n';
-                            speech += 'Total:'+caladd-calminus+' cal';
+                            speech += 'Total:'+(caladd-calminus)+' cal';
                             return res.json({
                                 speech: speech,
                                 displayText: speech,
