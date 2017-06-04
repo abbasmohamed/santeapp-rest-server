@@ -136,9 +136,6 @@ restService.post('/hook', function (req, res) {
                         speech += 'calories Consumed:'+caladd+' cal\n';
                         speech += 'calories Burned:'+calminus+' cal\n';
                         speech += 'Total:'+(caladd-calminus)+' cal';
-                            
-                            
-                        });
                         
                     }
                     else
