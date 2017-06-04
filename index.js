@@ -22,7 +22,7 @@ restService.post('/hook', function (req, res) {
                 speech = '';
 console.log('result: ', JSON.stringify(requestBody.result));
                 if (requestBody.result.metadata.intentName) {
-                    cmd = requestBody.result.metadata.intentName;
+                    var cmd = requestBody.result.metadata.intentName;
                     if(cmd == 'Having_Food')
                     {
                         //having food request
