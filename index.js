@@ -8,8 +8,8 @@ const fs = require("fs");
 const restService = express();
 restService.use(bodyParser.json());
 
-const foodJson = {};
-const workoutJson = {};
+var foodJson = {};
+var workoutJson = {};
 
 fs.readFile( "foodItem.json", 'utf8', function (err, data) 
 {
