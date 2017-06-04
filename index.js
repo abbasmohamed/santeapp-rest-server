@@ -166,21 +166,6 @@ restService.post('/hook', function (req, res) {
     }
 });
 
-function processTotalSpeech(speech, dateId, caladd, calminus, isResponse , res)
-{
-    speech += ''+dateId+':\n';
-    speech += 'calories Consumed:'+caladd+' cal\n';
-    speech += 'calories Burned:'+calminus+' cal\n';
-    speech += 'Total:'+caladd-calminus+' cal';
-    if(isResponse)
-    {
-        return res.json({
-            speech: speech,
-            displayText: speech,
-            source: 'santeapp-rest-server'
-        });
-    }
-}
 
 restService.listen((process.env.PORT || 5000), function () {
     console.log("Server listening");
