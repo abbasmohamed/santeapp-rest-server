@@ -45,6 +45,7 @@ restService.post('/hook', function (req, res) {
                                if(foodJson[item])
                                { 
                                    calories = foodJson[item];
+                                   onsole.log('calories: ', calories);
                                }
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
@@ -56,10 +57,10 @@ restService.post('/hook', function (req, res) {
                                 console.log('result: ', datetime);
                                 if(!data[datetime])
                                 {
-                                    data[datetime] = {};
+                                    data[datetime] = {"add":0,"minus":0};
                                     console.log('inside: ', data);
                                 }
-                                if(data[datetime].add)
+                                if(data[datetime].add == 0)
                                 {
                                     data[datetime].add += calories;
                                 }
@@ -73,7 +74,7 @@ restService.post('/hook', function (req, res) {
                                 
                             });
                             
-                                   console.log('result: ', calories);
+                                   console.log('calories: ', calories);
                             speech += 'You consumed '+type+' '+item+' for ';
                             speech += calories;
                             speech += ' cal\n'
@@ -113,9 +114,9 @@ restService.post('/hook', function (req, res) {
                                 var datetime = new Date().toDateString();
                                 if(!data[datetime])
                                 {
-                                    data[datetime] = {};
+                                    data[datetime] = {"add":0,"minus":0};
                                 }
-                                if(data[datetime].minus)
+                                if(data[datetime].minus == 0)
                                 {
                                     data[datetime].minus += calories;
                                 }
