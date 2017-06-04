@@ -44,10 +44,10 @@ restService.post('/hook', function (req, res) {
                                var foodJson = JSON.parse(data);
                                 console.log('result: ', foodJson);
                                 console.log('result: ', item);
-                               if(foodJson.item)
+                               if(foodJson[item])
                                {
                                    console.log('result: ', foodJson.item); 
-                                   calories = foodJson.item;
+                                   calories = foodJson[item];
                                }
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
@@ -57,18 +57,18 @@ restService.post('/hook', function (req, res) {
                                 var datetime = new Date().toDateString();
                                 
                                 console.log('result: ', datetime);
-                                if(!data.datetime)
+                                if(!data[datetime])
                                 {
-                                    data.datetime = {};
+                                    data[datetime] = {};
                                 }
-                                if(data.datetime.add)
+                                if(data[datetime].add)
                                 {
-                                    data.datetime.add += calories;
+                                    data[datetime].add += calories;
                                 }
                                 else
                                 {
-                                    data.datetime.add = calories;
-                                    data.datetime.minus = 0;
+                                    data[datetime].add = calories;
+                                    data[datetime].minus = 0;
                                 }
                                 
                             });
@@ -100,27 +100,27 @@ restService.post('/hook', function (req, res) {
                             fs.readFile( "workout.json", 'utf8', function (err, data) 
                             {
                                var workout = JSON.parse(data);
-                               if(workout.item)
+                               if(workout[item])
                                {
-                                    calories = (workout.item)*val;
+                                    calories = (workout[item])*val;
                                }
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
                             {
                                 data = JSON.parse(data);
                                 var datetime = new Date().toDateString();
-                                if(!data.datetime)
+                                if(!data[datetime])
                                 {
-                                    data.datetime = {};
+                                    data[datetime] = {};
                                 }
-                                if(data.datetime.minus)
+                                if(data[datetime].minus)
                                 {
-                                    data.datetime.minus += calories;
+                                    data[datetime].minus += calories;
                                 }
                                 else
                                 {
-                                    data.datetime.minus = calories;
-                                    data.datetime.add = 0;
+                                    data[datetime].minus = calories;
+                                    data[datetime].add = 0;
                                 }
                                 
                             });
@@ -144,10 +144,10 @@ restService.post('/hook', function (req, res) {
                         fs.readFile( "db.json", 'utf8', function (err, data) 
                         {
                             data = JSON.parse(data);
-                            if(data.dateId)
+                            if(data[dateId])
                             {
-                                caladd = data.dateId.add;
-                                calminus = data.dateId.minus;
+                                caladd = data[dateId].add;
+                                calminus = data[dateId].minus;
                             }
                             
                         });
