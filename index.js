@@ -48,7 +48,7 @@ restService.post('/hook', function (req, res) {
                                 { 
                                    calories = foodJson[item];
                                 }
-                                processFoodSpeech(speech, type, item, calories, (i == workoutitem.length-1))
+                                processFoodSpeech(speech, type, item, calories, (i == foodItem.length-1))
                                 
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
@@ -93,7 +93,7 @@ restService.post('/hook', function (req, res) {
                                {
                                     calories = (workout[item])*val;
                                }
-                                processWorkoutSpeech(speech, workout, calories, (i == workoutitem.length-1));
+                                processWorkoutSpeech(speech, workout, calories, (i == workoutItem.length-1));
                                 
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
