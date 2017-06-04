@@ -48,7 +48,7 @@ restService.post('/hook', function (req, res) {
                                 { 
                                    calories = foodJson[item];
                                 }
-                                processFoodSpeech(speech, type, item, calories, (i == foodItem.length-1))
+                                processFoodSpeech(speech, type, item, calories, (i == foodItem.length-1), res)
                                 
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
@@ -93,7 +93,7 @@ restService.post('/hook', function (req, res) {
                                {
                                     calories = (workout[item])*val;
                                }
-                                processWorkoutSpeech(speech, workout, calories, (i == workoutItem.length-1));
+                                processWorkoutSpeech(speech, workout, calories, (i == workoutItem.length-1), res);
                                 
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
@@ -129,7 +129,7 @@ restService.post('/hook', function (req, res) {
                                 caladd = data[dateId].add;
                                 calminus = data[dateId].minus;
                             }
-                            processTotalspeech(speech, dateId, caladd, calminus, true);
+                            processTotalspeech(speech, dateId, caladd, calminus, true, res);
                             
                         });
                         
@@ -156,7 +156,7 @@ restService.post('/hook', function (req, res) {
     }
 });
 
-function processFoodSpeech(speech, type, item, calories, isResponse)
+function processFoodSpeech(speech, type, item, calories, isResponse, res)
 {
     speech += 'You consumed '+type+' '+item+' for ';
     speech += calories;
@@ -170,7 +170,7 @@ function processFoodSpeech(speech, type, item, calories, isResponse)
         });
     }
 }
-function processWorkoutSpeech(speech, workout, calories, isResponse)
+function processWorkoutSpeech(speech, workout, calories, isResponse, res)
 {
     speech += 'You Burnt calories through '+workout+' :';
     speech += calories;
@@ -184,7 +184,7 @@ function processWorkoutSpeech(speech, workout, calories, isResponse)
         });
     }
 }
-function processTotalSpeech(speech, dateId, caladd, calminus, isResponse)
+function processTotalSpeech(speech, dateId, caladd, calminus, isResponse , res)
 {
     speech += ''+dateId+':\n';
     speech += 'calories Consumed:'+caladd+' cal\n';
