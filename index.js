@@ -20,7 +20,7 @@ restService.post('/hook', function (req, res) {
 
             if (requestBody.result) {
                 speech = '';
-console.log('result: ', requestBody.result.intentName);
+console.log('result: ', JSON.stringify(requestBody.result));
                 if (requestBody.result.intentName) {
                     cmd = requestBody.result.intentName;
                     if(cmd == 'Having_Food')
