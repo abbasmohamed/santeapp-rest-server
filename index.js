@@ -62,13 +62,13 @@ restService.post('/hook', function (req, res) {
                             {
                                 data = JSON.parse(data);
                                 var datetime = new Date().toDateString();
-                                
                                 console.log('result: ', data);
                                 if(!data[datetime])
                                 {
                                     data[datetime] = {"add":0,"minus":0};
                                 }
                                 data[datetime].add += calories;
+                                console.log('data: ', data);
                                 
                             });
                             speech += 'You consumed '+type+' '+item+' for ';
@@ -105,12 +105,14 @@ restService.post('/hook', function (req, res) {
                             fs.readFile( "db.json", 'utf8', function (err, data) 
                             {
                                 data = JSON.parse(data);
+                                console.log('data: ', data);
                                 var datetime = new Date().toDateString();
                                 if(!data[datetime])
                                 {
                                     data[datetime] = {"add":0,"minus":0};
                                 }
                                 data[datetime].minus += calories;
+                                console.log('data: ', data);
                                 
                             });
                             speech += 'You Burnt calories through '+workout+' :';
