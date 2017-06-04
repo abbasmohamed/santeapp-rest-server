@@ -42,11 +42,8 @@ restService.post('/hook', function (req, res) {
                             fs.readFile( "foodItem.json", 'utf8', function (err, data) 
                             {
                                var foodJson = JSON.parse(data);
-                                console.log('result: ', foodJson);
-                                console.log('result: ', item);
                                if(foodJson[item])
-                               {
-                                   console.log('result: ', foodJson[item]); 
+                               { 
                                    calories = foodJson[item];
                                }
                             });
@@ -75,6 +72,8 @@ restService.post('/hook', function (req, res) {
                                 }
                                 
                             });
+                            
+                                   console.log('result: ', calories);
                             speech += 'You consumed '+type+' '+item+' for ';
                             speech += calories;
                             speech += ' cal\n'
