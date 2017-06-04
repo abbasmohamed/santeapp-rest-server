@@ -32,10 +32,12 @@ restService.post('/hook', function (req, res) {
                         speech += 'Enjoy Your Food.\n'
 
                         var foodItem = requestBody.result.parameters.foodItem;
+                        console.log('list: ', foodItem);
                         for(var i = 0; i < foodItem.length; i++) 
                         {
                             var food = foodItem[i];
                             var foodarr = food.split("_");
+                            console.log('list: ', foodarr);
                             var item = foodarr[0];
                             var type = foodarr[1];
                             var calories = 0;
