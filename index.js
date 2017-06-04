@@ -10,6 +10,7 @@ restService.use(bodyParser.json());
 
 var foodJson = {};
 var workoutJson = {};
+var dbJson = {};
 
 fs.readFile( "foodItem.json", 'utf8', function (err, data) 
 {
@@ -19,7 +20,6 @@ fs.readFile( "workout.json", 'utf8', function (err, data)
 {
    workoutJson = JSON.parse(data);
 });
-
 
 restService.post('/hook', function (req, res) {
 
@@ -58,19 +58,16 @@ restService.post('/hook', function (req, res) {
                             { 
                                calories = foodJson[item];
                             }
-                            fs.readFile( "db.json", 'utf8', function (err, data) 
+                            
+                            var data = dbJson;    
+                            var datetime = new Date().toDateString();
+                            console.log('result: ', data);
+                            if(!data[datetime])
                             {
-                                data = JSON.parse(data);
-                                var datetime = new Date().toDateString();
-                                console.log('result: ', data);
-                                if(!data[datetime])
-                                {
-                                    data[datetime] = {"add":0,"minus":0};
-                                }
-                                data[datetime].add += calories;
-                                console.log('data: ', data);
-                                
-                            });
+                                data[datetime] = {"add":0,"minus":0};
+                            }
+                            data[datetime].add += calories;
+                            
                             speech += 'You consumed '+type+' '+item+' for ';
                             speech += calories;
                             speech += ' cal\n'
@@ -102,19 +99,15 @@ restService.post('/hook', function (req, res) {
                             {
                                 calories = (workoutJson[item])*val;
                             }
-                            fs.readFile( "db.json", 'utf8', function (err, data) 
+                            data = dbJson;
+                            console.log('data: ', data);
+                            var datetime = new Date().toDateString();
+                            if(!data[datetime])
                             {
-                                data = JSON.parse(data);
-                                console.log('data: ', data);
-                                var datetime = new Date().toDateString();
-                                if(!data[datetime])
-                                {
-                                    data[datetime] = {"add":0,"minus":0};
-                                }
-                                data[datetime].minus += calories;
-                                console.log('data: ', data);
-                                
-                            });
+                                data[datetime] = {"add":0,"minus":0};
+                            }
+                            data[datetime].minus += calories;
+                            
                             speech += 'You Burnt calories through '+workout+' :';
                             speech += calories;
                             speech += ' cal\n'
@@ -132,25 +125,18 @@ restService.post('/hook', function (req, res) {
                         var calminus = 0;
                         
                        
-                        fs.readFile( "db.json", 'utf8', function (err, data) 
+                        data = dbJson;
+                            
+                        if(data[dateId])
                         {
-                            data = JSON.parse(data);
-                            console.log('data: ', data);
-                            console.log('date: ', dateId);
-                            if(data[dateId])
-                            {
-                                caladd = data[dateId].add;
-                                calminus = data[dateId].minus;
-                            }
-                            speech += ''+dateId+':\n';
-                            speech += 'calories Consumed:'+caladd+' cal\n';
-                            speech += 'calories Burned:'+calminus+' cal\n';
-                            speech += 'Total:'+(caladd-calminus)+' cal';
-                            return res.json({
-                                speech: speech,
-                                displayText: speech,
-                                source: 'santeapp-rest-server'
-                            });
+                            caladd = data[dateId].add;
+                            calminus = data[dateId].minus;
+                        }
+                        speech += ''+dateId+':\n';
+                        speech += 'calories Consumed:'+caladd+' cal\n';
+                        speech += 'calories Burned:'+calminus+' cal\n';
+                        speech += 'Total:'+(caladd-calminus)+' cal';
+                            
                             
                         });
                         
@@ -164,13 +150,12 @@ restService.post('/hook', function (req, res) {
 
             }
         }
-        if(cmd != 'get_result'){
+    
         return res.json({
             speech: speech,
             displayText: speech,
             source: 'santeapp-rest-server'
         });
-        }
 
     } catch (err) {
         console.error("Can't process request", err);
