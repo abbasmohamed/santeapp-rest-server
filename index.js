@@ -43,6 +43,7 @@ restService.post('/hook', function (req, res) {
                             {
                                var foodJson = JSON.parse(data);
                                 console.log('result: ', foodJson);
+                                console.log('result: ', item);
                                if(foodJson.item)
                                {
                                    console.log('result: ', foodJson.item); 
