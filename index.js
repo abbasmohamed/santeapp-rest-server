@@ -46,12 +46,10 @@ restService.post('/hook', function (req, res) {
                         speech += 'Enjoy Your Food.\n'
 
                         var foodItem = requestBody.result.parameters.foodItem;
-                        console.log('list: ', foodItem);
                         for(var i = 0; i < foodItem.length; i++) 
                         {
                             var food = foodItem[i];
                             var foodarr = food.split("_");
-                            console.log('list: ', foodarr);
                             var item = foodarr[0];
                             var type = foodarr[1];
                             var calories = 0;
@@ -89,14 +87,20 @@ restService.post('/hook', function (req, res) {
                         speech += 'Enjoy Your Workout.\n'
 
                         var workoutItem = requestBody.result.parameters.workoutItem;
+                        
+                        console.log('list: ', workoutItem);
                         for(var i = 0; i < workoutItem.length; i++) 
                         {
                             var workout = workoutItem[i];
                             var workoutarr = workout.split(" ");
+                            
+                            console.log('list: ', workoutarr);
                             var item = workoutarr[0];
                             var val = workoutarr[1];
                             var time = workoutarr[2];
                             var calories = 0;
+                            console.log('list: ', workoutJson[item]);
+                            console.log('val: ', val);
                             if(workoutJson[item])
                             {
                                 calories = (workoutJson[item])*val;
