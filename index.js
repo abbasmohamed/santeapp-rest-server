@@ -37,6 +37,7 @@ restService.post('/hook', function (req, res) {
 
                 if (requestBody.result.metadata.intentName) {
                     cmd = requestBody.result.metadata.intentName;
+                    console.log('cmd: ', cmd);
                     if(cmd == 'Having_Food')
                     {
                         //having food request
