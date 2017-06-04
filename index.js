@@ -20,7 +20,7 @@ restService.post('/hook', function (req, res) {
 
             if (requestBody.result) {
                 speech = '';
-
+console.log('result: ', requestBody.result.intentName);
                 if (requestBody.result.intentName) {
                     cmd = requestBody.result.intentName;
                     if(cmd == 'Having_Food')
@@ -96,7 +96,7 @@ restService.post('/hook', function (req, res) {
                                var workout = JSON.parse(data);
                                if(workout.item)
                                {
-                                    calories = workout.item;
+                                    calories = (workout.item)*val;
                                }
                             });
                             fs.readFile( "db.json", 'utf8', function (err, data) 
